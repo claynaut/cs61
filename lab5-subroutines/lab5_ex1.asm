@@ -8,27 +8,27 @@
 ;=======================================================================
 .ORIG x3000
 ; Instructions ---------------------------------------------------------
-	LD R1, ARRAY_ADDR					; Load the starting address of the array
+	LD R1, ARRAY_ADDR			; Load the starting address of the array
 	
 	AND R3, R3, #0		
-	ADD R3, R3, #1						; Beginning value (1) to store into the array
+	ADD R3, R3, #1				; Beginning value (1) to store into the array
 	LD R4, fillCount	
 	
 FILL_LOOP
-	STR R3, R1, #0						; Store hardcoded value into array
-	ADD R1, R1, #1						; Increment address within array
-	ADD R3, R3, R3						; Double hardcoded value to store, simulating 2^n
+	STR R3, R1, #0				; Store hardcoded value into array
+	ADD R1, R1, #1				; Increment address within array
+	ADD R3, R3, R3				; Double hardcoded value to store, simulating 2^n
 	
 	ADD R4, R4, #-1
 	BRp FILL_LOOP
 
-	LD R1, ARRAY_ADDR					; Reload the starting address of the array
+	LD R1, ARRAY_ADDR			; Reload the starting address of the array
 	LD R4, fillCount
 	
 OUTPUT_LOOP
 	LDR R2, R1, #0
 	
-	LD R6, SUB_PRINT_BINARY				; Subroutine to print MEM[R2]
+	LD R6, SUB_PRINT_BINARY			; Subroutine to print MEM[R2]
 	JSRR R6								
 	
 	ADD R1, R1, #1
@@ -41,8 +41,8 @@ OUTPUT_LOOP
 ; Local Data -----------------------------------------------------------
 	SUB_PRINT_BINARY	.FILL		x3200
 	
-	ARRAY_ADDR			.FILL		x4000
-	fillCount			.FILL		#10
+	ARRAY_ADDR		.FILL		x4000
+	fillCount		.FILL		#10
 	
 ; Remote Data ----------------------------------------------------------
 .ORIG x4000
@@ -69,42 +69,42 @@ OUTPUT_LOOP
 	ST R7, R7_BACKUP_3200
 
 ; Subroutine Algorithm
-	LD R3, bitCounter					; Counter to group up bits (4 bits)
-	LD R4, printCounter					; Counter for how many bits to print (16 bits in total)
+	LD R3, bitCounter			; Counter to group up bits (4 bits)
+	LD R4, printCounter			; Counter for how many bits to print (16 bits in total)
 	
 PRINT_LOOP
 	ADD R0, R2, #0
-	BRn PRINT_ONE						; Skips to load the character '1' to print if the bit is a 1
-	
+	BRn PRINT_ONE				; Skips to load the character '1' to print if the bit is a 1
+
 ; PRINT_ZERO
-	LD R0, zero							; Loads the character '0' to print
-	BR OUTPUT							; Skips loading the character '1' to print
+	LD R0, zero				; Loads the character '0' to print
+	BR OUTPUT				; Skips loading the character '1' to print
 	
 PRINT_ONE
-	LD R0, one							; Loads the character '1' to print
+	LD R0, one				; Loads the character '1' to print
 	
 OUTPUT
 	OUT
 	
-	ADD R2, R2, R2						; Shifts the bits to the left to print the next bit
+	ADD R2, R2, R2				; Shifts the bits to the left to print the next bit
 	
 	ADD R4, R4, #-1
-	BRnz SKIP_PRINT_SPACE				; Skip printing a space if it's the end of bit string
+	BRnz SKIP_PRINT_SPACE			; Skip printing a space if it's the end of bit string
 	
 	ADD R3, R3, #-1
-	BRnp SKIP_PRINT_SPACE				; Skip printing a space if it's not the end of 4 bits
+	BRnp SKIP_PRINT_SPACE			; Skip printing a space if it's not the end of 4 bits
 	
 ; PRINT_SPACE
-	LD R0, space						; Prints a space to console
-	OUT									; (after 4 bits but not at the end of the bit string)
+	LD R0, space				; Prints a space to console
+	OUT					; (after 4 bits but not at the end of the bit string)
 	
-	LD R3, bitCounter					; Resets the bit counter (4 bits)
+	LD R3, bitCounter			; Resets the bit counter (4 bits)
 	
 SKIP_PRINT_SPACE
 	ADD R4, R4, #0	
-	BRp PRINT_LOOP						; Checks if it's necessary to keep printing the bit string
+	BRp PRINT_LOOP				; Checks if it's necessary to keep printing the bit string
 	
-	LD R0, newline						; Prints a newline to console after the bit string has been printed
+	LD R0, newline				; Prints a newline to console after the bit string has been printed
 	OUT
 
 ; Restore backup
@@ -130,11 +130,11 @@ SKIP_PRINT_SPACE
 ;	R6_BACKUP_3200		.BLKW		#1
 	R7_BACKUP_3200		.BLKW		#1
 	
-	space				.FILL		x20
-	newline				.FILL		x0A
-	zero				.FILL		x30
-	one					.FILL		x31
-	bitCounter			.FILL		#4
+	space			.FILL		x20
+	newline			.FILL		x0A
+	zero			.FILL		x30
+	one			.FILL		x31
+	bitCounter		.FILL		#4
 	printCounter		.FILL		#16
 	
 ;=======================================================================

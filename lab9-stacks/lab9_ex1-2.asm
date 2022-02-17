@@ -8,16 +8,16 @@
 ;=======================================================================
 .ORIG x3000
 ; Instructions ---------------------------------------------------------
-	LD R2, pushCounter				; Counter for how many times to push a value
-	LD R3, popCounter				; Counter for how many times to pop a value
-	LD R4, BASE						; xA000
-	LD R5, MAX						; xA005
-	LD R6, TOS						; xA000
+	LD R2, pushCounter			; Counter for how many times to push a value
+	LD R3, popCounter			; Counter for how many times to pop a value
+	LD R4, BASE				; xA000
+	LD R5, MAX				; xA005
+	LD R6, TOS				; xA000
 	
-	LEA R0, divider					; Divider printed to separate text printed to console
+	LEA R0, divider				; Divider printed to separate text printed to console
 	PUTS
 	
-PUSH_LOOP							; Push a value a certain number of times
+PUSH_LOOP					; Push a value a certain number of times
 	LEA R0, push_msg
 	PUTS
 	
@@ -32,7 +32,7 @@ PUSH_LOOP							; Push a value a certain number of times
 	ADD R2, R2, #-1
 	BRp PUSH_LOOP
 	
-POP_LOOP							; Pop a certain number of times
+POP_LOOP					; Pop a certain number of times
 	LEA R0, pop_msg
 	PUTS
 	
@@ -49,16 +49,16 @@ POP_LOOP							; Pop a certain number of times
 	SUB_STACK_PUSH		.FILL		x3200
 	SUB_STACK_POP		.FILL		x3400
 	
-	BASE				.FILL		xA000
-	MAX					.FILL		xA005
-	TOS					.FILL		xA000
+	BASE			.FILL		xA000
+	MAX			.FILL		xA005
+	TOS			.FILL		xA000
 	
-	divider				.STRINGZ 	"\n --\n"
-	push_msg			.STRINGZ	"Input a value to push to stack: "
-	pop_msg				.STRINGZ	"\nValue popped: "
-	newline				.FILL		x0A
-	pushCounter			.FILL		#7
-	popCounter			.FILL		#6
+	divider			.STRINGZ 	"\n --\n"
+	push_msg		.STRINGZ	"Input a value to push to stack: "
+	pop_msg			.STRINGZ	"\nValue popped: "
+	newline			.FILL		x0A
+	pushCounter		.FILL		#7
+	popCounter		.FILL		#6
 
 ;=======================================================================
 ; Subroutine: SUB_STACK_PUSH
@@ -68,8 +68,8 @@ POP_LOOP							; Pop a certain number of times
 ; Parameter (R5): MAX: The "highest" available address in the stack
 ; Parameter (R6): TOS (Top of Stack): A pointer to the current top of the stack
 ; Postcondition: The subroutine has pushed (R0) onto the stack (i.e to address TOS+1). 
-;		    	 If the stack was already full (TOS = MAX), the subroutine has printed an
-;		    	 overflow error message and terminated.
+;		 If the stack was already full (TOS = MAX), the subroutine has printed an
+;		 overflow error message and terminated.
 ; Return Value: R6 ← updated TOS
 ;=======================================================================
 .ORIG x3200
@@ -90,10 +90,10 @@ POP_LOOP							; Pop a certain number of times
 	NOT R1, R1
 	ADD R1, R1, #1
 	ADD R1, R1, R5
-	BRz OVERFLOW_ERROR				; Check if TOS == MAX
+	BRz OVERFLOW_ERROR			; Check if TOS == MAX
 	
-	ADD R6, R6, #1					; Update TOS (+1)
-	STR R0, R6, #0					; "Push" value onto stack 
+	ADD R6, R6, #1				; Update TOS (+1)
+	STR R0, R6, #0				; "Push" value onto stack 
 	
 	BR END_PUSH_SUB
 	
@@ -137,10 +137,10 @@ END_PUSH_SUB
 ; Parameter (R5): MAX: The "highest" available address in the stack
 ; Parameter (R6): TOS (Top of Stack): A pointer to the current top of the stack
 ; Postcondition: The subroutine has popped MEM[TOS] off of the stack.
-;		    	 If the stack was already empty (TOS = BASE), the subroutine has printed
+;		 If the stack was already empty (TOS = BASE), the subroutine has printed
 ;                an underflow error message and terminated.
 ; Return Value: R0 ← value popped off the stack
-;		   R6 ← updated TOS
+;	        R6 ← updated TOS
 ;=======================================================================
 .ORIG x3400
 ; Subroutine Instructions ----------------------------------------------
@@ -160,10 +160,10 @@ END_PUSH_SUB
 	NOT R1, R1
 	ADD R1, R1, #1
 	ADD R1, R1, R4
-	BRz UNDERFLOW_ERROR				; Check if TOS == BASE
+	BRz UNDERFLOW_ERROR			; Check if TOS == BASE
 	
-	LDR R0, R6, #0					; R0 <-- MEM[TOS]
-	ADD R6, R6, #-1					; "Pop" value off of stack by updating TOS
+	LDR R0, R6, #0				; R0 <-- MEM[TOS]
+	ADD R6, R6, #-1				; "Pop" value off of stack by updating TOS
 	
 	BR END_POP_SUB
 

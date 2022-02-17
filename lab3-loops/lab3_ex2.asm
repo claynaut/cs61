@@ -26,7 +26,7 @@ FILL_LOOP
 	HALT
 
 ; Local Data -----------------------------------------------------------
-	ARRAY			.BLKW		#10
-	loopCounter		.FILL		#10
+	ARRAY		.BLKW	#10
+	loopCounter	.FILL	#10
 
 .END

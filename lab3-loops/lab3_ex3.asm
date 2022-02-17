@@ -31,7 +31,7 @@ FILL_LOOP
 	
 PRINT_LOOP
 	LDR R0, R1, #0		; Loads the value located at the address stored in R1 (some index within the array)
-	OUT					; and prints to console
+	OUT			; and prints to console
 	
 	LD R0, newline		; Prints a newline after each character is printed
 	OUT
@@ -43,8 +43,8 @@ PRINT_LOOP
 	HALT
 
 ; Local Data -----------------------------------------------------------
-	ARRAY			.BLKW		#10
-	loopCounter		.FILL		#10
-	newline			.FILL		x0A
+	ARRAY		.BLKW	#10
+	loopCounter	.FILL	#10
+	newline		.FILL	x0A
 
 .END

@@ -28,8 +28,8 @@ FILL_LOOP
 	HALT
 	
 ; Local Data -----------------------------------------------------------
-	ARRAY_ADDR		.FILL		x4000
-	fillCount		.FILL		#10
+	ARRAY_ADDR	.FILL	x4000
+	fillCount	.FILL	#10
 	
 ; Remote Data ----------------------------------------------------------
 .ORIG x4000

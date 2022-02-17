@@ -8,19 +8,19 @@
 ;=======================================================================
 .ORIG x3000
 ; Instructions ---------------------------------------------------------
-	LD R1, STRING_ADDR					; Starting address of character array
+	LD R1, STRING_ADDR			; Starting address of character array
 	
-	LD R6, SUB_GET_STRING				; Fill array w/ characters from the user
+	LD R6, SUB_GET_STRING			; Fill array w/ characters from the user
 	JSRR R6
 	
 	LD R6, SUB_IS_PALINDROME
 	JSRR R6
 	
-	LD R0, STRING_ADDR					; Print character array
+	LD R0, STRING_ADDR			; Print character array
 	PUTS
 	
 	ADD R4, R4, #0
-	BRz NOT_A_PALINDROME				; Branch to print message if not a palindrome
+	BRz NOT_A_PALINDROME			; Branch to print message if not a palindrome
 	
 	LEA R0, palindromeTrueMsg
 	PUTS
@@ -39,21 +39,21 @@ END_MESSAGE
 	SUB_GET_STRING		.FILL		x3200
 	SUB_IS_PALINDROME	.FILL		x3400
 	
-	STRING_ADDR			.FILL		x4000
+	STRING_ADDR		.FILL		x4000
 	palindromeTrueMsg	.STRINGZ	" is a palindrome!\n"
 	palindromeFalseMsg	.STRINGZ	" is NOT a palindrome!\n"
 	
 ; Remote Data ----------------------------------------------------------
 .ORIG x4000
-						.BLKW		#100
+	.BLKW		#100
 
 ;=======================================================================
 ; SUBROUTINE: SUB_GET_STRING
 ; Parameter (R1): the starting address of the character array
 ; Postcondition: The subroutine has prompted the user to input a string,
-;			     terminated by the [ENTER] key (the "sentinel"), and has stored
-;				 the received characters in an array of characters starting at (R1).
-;				 The array is NULL-terminated. The sentinel character is NOT stored.
+;		 terminated by the [ENTER] key (the "sentinel"), and has stored
+;		 the received characters in an array of characters starting at (R1).
+;		 The array is NULL-terminated. The sentinel character is NOT stored.
 ; Return Value (R5): the number of ​non-sentinel​ characters read from the user
 ;=======================================================================
 .ORIG x3200
@@ -72,18 +72,18 @@ END_MESSAGE
 ; Subroutine Algorithm
 	AND R5, R5, #0
 	
-	LD R2, newline_3200					; 2's complement of '\n' used to
-	NOT R2, R2							; check for sentinel character (ENTER)
+	LD R2, newline_3200			; 2's complement of '\n' used to
+	NOT R2, R2				; check for sentinel character (ENTER)
 	ADD R2, R2, #1
 	
 GET_USER_INPUT
 	GETC
 	OUT
 	
-	ADD R3, R0, R2						; Checks for sentinel character
-	BRz STOP_USER_INPUT					; Prevents sentinel character from being stored into the array
+	ADD R3, R0, R2				; Checks for sentinel character
+	BRz STOP_USER_INPUT			; Prevents sentinel character from being stored into the array
 	
-	STR R0, R1, #0						; Store user input
+	STR R0, R1, #0				; Store user input
 	
 	ADD R1, R1, #1
 	ADD R5, R5, #1
@@ -91,10 +91,10 @@ GET_USER_INPUT
 	BR GET_USER_INPUT
 	
 STOP_USER_INPUT
-	AND R0, R0, #0						; Hard-code zero value into R0
-	
+	AND R0, R0, #0				; Hard-code zero value into R0
+
 	ADD R1, R1, #1
-	STR R0, R1, #0						; Terminate array with NULL
+	STR R0, R1, #0				; Terminate array with NULL
 
 ; Restore Backup
 	LD R0, R0_BACKUP_3200
@@ -130,7 +130,7 @@ STOP_USER_INPUT
 ; Parameter (R1): the starting address of a null-terminated string
 ; Parameter (R5): the number of characters in the array
 ; Postcondition: The subroutine has determined whether the string at (R1) is
-;				 a palindrome or not, and returned a flag to that effect.
+;		 a palindrome or not, and returned a flag to that effect.
 ; Return Value (R4): 1 if the string is a palindrome, 0 otherwise
 ;=======================================================================
 .ORIG x3400
@@ -150,29 +150,29 @@ STOP_USER_INPUT
 	AND R4, R4, #0
 	
 	ADD R0, R1, R5						
-	ADD R0, R0, #-1						; Ending address of character array
+	ADD R0, R0, #-1				; Ending address of character array
 	
 CHECK_IF_PALINDROME
-	ADD R6, R0, #0						; Use R6 as a temporary register to store starting address
-	NOT R6, R6							; and perform 2's complement
+	ADD R6, R0, #0				; Use R6 as a temporary register to store starting address
+	NOT R6, R6				; and perform 2's complement
 	ADD R6, R6, #1
 	
-	ADD R6, R6, R1						; Check if starting and ending addresses match, and if so,
-	BRz IS_A_PALINDROME					; the character array is a palindrome
+	ADD R6, R6, R1				; Check if starting and ending addresses match, and if so,
+	BRz IS_A_PALINDROME			; the character array is a palindrome
 	
-	ADD R6, R6, #1						; Check if middle had been reached for an even-sized array
+	ADD R6, R6, #1				; Check if middle had been reached for an even-sized array
 	BRz IS_A_PALINDROME	
 
-	LDR R2, R1, #0						; Load first character (starting from beginning to middle of array)
+	LDR R2, R1, #0				; Load first character (starting from beginning to middle of array)
 	
-	LDR R3, R0, #0						; Load second character (starting from end to middle of array)
-	NOT R3, R3							; Perform 2's complement to compare characters
+	LDR R3, R0, #0				; Load second character (starting from end to middle of array)
+	NOT R3, R3				; Perform 2's complement to compare characters
 	ADD R3, R3, #1
 	
-	ADD R6, R2, R3						; Check if first and second character are the same,
-	BRnp NOT_A_PALINDROME_3400			; otherwise character array is not a palindrome
+	ADD R6, R2, R3				; Check if first and second character are the same,
+	BRnp NOT_A_PALINDROME_3400		; otherwise character array is not a palindrome
 	
-	ADD R1, R1, #1						; Increment towards middle address of character array
+	ADD R1, R1, #1				; Increment towards middle address of character array
 	ADD R0, R0, #-1
 	
 	BR CHECK_IF_PALINDROME

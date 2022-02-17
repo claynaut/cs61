@@ -11,7 +11,7 @@
 	LD R6, SUB_HARD_CODE
 	JSRR R6
 	
-	ADD R1, R1, #1					; Increment value to pass into SUB_PRINT_DECIMAL for printing
+	ADD R1, R1, #1				; Increment value to pass into SUB_PRINT_DECIMAL for printing
 	
 	LD R6, SUB_PRINT_DECIMAL
 	JSRR R6
@@ -27,13 +27,13 @@
 	SUB_HARD_CODE		.FILL		x3200
 	SUB_PRINT_DECIMAL	.FILL		x3400
 	
-	newline				.FILL		x0A
+	newline			.FILL		x0A
 
 ;=======================================================================
 ; SUBROUTINE: SUB_HARD_CODE
 ; Parameter: none
 ; Postcondition: The subroutine loads a hard-coded value into the designated
-;				 register, the return value (R1).
+;		 register, the return value (R1).
 ; Return Value (R1): the hard-coded value
 ;=======================================================================
 .ORIG x3200
@@ -75,7 +75,7 @@
 ;	R6_BACKUP_3200		.BLKW		#1
 	R7_BACKUP_3200		.BLKW		#1
 	
-	value				.FILL		#10101
+	value			.FILL		#10101
 
 ;=======================================================================
 ; END SUBROUTINE
@@ -101,16 +101,16 @@
 	ST R7, R7_BACKUP_3400
 
 ; Subroutine Algorithm
-	AND R6, R6, #0					; Toggle value to check if respective decimal
-									; place should be printed (if > 0)
+	AND R6, R6, #0				; Toggle value to check if respective decimal
+						; place should be printed (if > 0)
 	
 	ADD R1, R1, #0
 	BRzp NOT_NEGATIVE
 
-	LD R0, negativeSign				; Print negative sign
+	LD R0, negativeSign			; Print negative sign
 	OUT
 	
-	NOT R1, R1						; 2's complement of MEM[R1]
+	NOT R1, R1				; 2's complement of MEM[R1]
 	ADD R1, R1, #1
 	
 NOT_NEGATIVE	
@@ -128,12 +128,12 @@ COUNT_TEN_THOUSAND
 	ADD R1, R1, R2
 	BRzp COUNT_TEN_THOUSAND
 	
-	ADD R5, R5, #-1					; Subtracts one to account for the loop
-									; being run an extra time (runs until MEM[R1] is negative)
+	ADD R5, R5, #-1				; Subtracts one to account for the loop
+						; being run an extra time (runs until MEM[R1] is negative)
 	
 	LD R2, tenThousand				
-	ADD R1, R1, R2					; Adds respective value back to decimal place since the
-									; loop runs an extra time until MEM[R1] is negative
+	ADD R1, R1, R2				; Adds respective value back to decimal place since the
+						; loop runs an extra time until MEM[R1] is negative
 									
 	ADD R5, R5, #0				
 	BRz SKIP_TEN_THOUSANDTHS_TOGGLE
@@ -142,7 +142,7 @@ COUNT_TEN_THOUSAND
 
 SKIP_TEN_THOUSANDTHS_TOGGLE
 	
-	ADD R6, R6, #0					; Checks if current decimal place should be printed
+	ADD R6, R6, #0				; Checks if current decimal place should be printed
 	BRz THOUSANDTHS_PLACE			; (won't print if preceding decimal places were leading 0's)
 	
 ; PRINT_TEN_THOUSANDTHS_PLACE	
@@ -279,12 +279,12 @@ SKIP_PRINT_ONES_PLACE
 	R6_BACKUP_3400		.BLKW		#1
 	R7_BACKUP_3400		.BLKW		#1
 	
-	tenThousand			.FILL		#10000
-	thousand			.FILL		#1000
-	hundred				.FILL		#100
-	ten					.FILL		#10
+	tenThousand		.FILL		#10000
+	thousand		.FILL		#1000
+	hundred			.FILL		#100
+	ten			.FILL		#10
 	negativeSign		.FILL		x2D
-	zero				.FILL		x30
+	zero			.FILL		x30
 
 ;=======================================================================
 ; END SUBROUTINE

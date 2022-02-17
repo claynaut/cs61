@@ -27,9 +27,9 @@ FILL_LOOP
 	
 OUTPUT_LOOP
 	LDR R0, R1, #0
-	OUT					; Only two ASCII characters (' ' and '@') will be printable
-						; as extended ASCII codes will not be printed and the last
-						; two values exceed the number of representable ASCII codes
+	OUT			; Only two ASCII characters (' ' and '@') will be printable
+				; as extended ASCII codes will not be printed and the last
+				; two values exceed the number of representable ASCII codes
 	
 	ADD R1, R1, #1
 	
@@ -39,8 +39,8 @@ OUTPUT_LOOP
 	HALT
 	
 ; Local Data -----------------------------------------------------------
-	ARRAY_ADDR		.FILL		x4000
-	fillCount		.FILL		#10
+	ARRAY_ADDR	.FILL	x4000
+	fillCount	.FILL	#10
 	
 ; Remote Data ----------------------------------------------------------
 .ORIG x4000

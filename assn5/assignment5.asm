@@ -144,25 +144,25 @@ OPTION_SEVEN
 	
 ; Local Data  ---------------------------------------------------------- 
 ; Subroutine pointers
-	MENU				.FILL		x3200
+	MENU			.FILL		x3200
 	ALL_MACHINES_BUSY	.FILL		x3400
 	ALL_MACHINES_FREE	.FILL		x3600
 	NUM_BUSY_MACHINES	.FILL		x3800
 	NUM_FREE_MACHINES	.FILL		x4000
 	MACHINE_STATUS		.FILL		x4200
-	FIRST_FREE			.FILL		x4400
-	PRINT_NUM			.FILL		x4800
+	FIRST_FREE		.FILL		x4400
+	PRINT_NUM		.FILL		x4800
 
 ; Other data 
-	newline 			.FILL		x0A
-	zero				.FILL		x30
+	newline 		.FILL		x0A
+	zero			.FILL		x30
 
 ; Strings for reports from menu subroutines:
 	goodbye         	.STRINGZ 	"Goodbye!\n"
 	allbusy         	.STRINGZ 	"All machines are busy\n"
 	allnotbusy      	.STRINGZ 	"Not all machines are busy\n"
 	allfree         	.STRINGZ 	"All machines are free\n"
-	allnotfree			.STRINGZ 	"Not all machines are free\n"
+	allnotfree		.STRINGZ 	"Not all machines are free\n"
 	busyfreemachine1	.STRINGZ 	"There are "
 	busymachine2    	.STRINGZ 	" busy machines\n"
 	freemachine2    	.STRINGZ 	" free machines\n"
@@ -252,9 +252,9 @@ PRINT_MENU
 	
 	menustringAddr  	.FILL 		x6400
 	errorMsg1	      	.STRINGZ 	"\nINVALID INPUT\n"
-	seven_3200			.FILL		x37
-	one_3200			.FILL		x31
-	zero_3200			.FILL		x30
+	seven_3200		.FILL		x37
+	one_3200		.FILL		x31
+	zero_3200		.FILL		x30
 
 ;=======================================================================
 ; Subroutine: ALL_MACHINES_BUSY (#1)
@@ -802,13 +802,13 @@ END_GET_INPUT_4600
 ;	R6_BACKUP_4600		.BLKW		#1
 	R7_BACKUP_4600		.BLKW		#1
 	
-	prompt_4600			.STRINGZ 	"Enter which machine you want the status of (0 - 15), followed by ENTER: "
-	errorMsg2	 		.STRINGZ 	"\nERROR INVALID INPUT\n"
+	prompt_4600		.STRINGZ 	"Enter which machine you want the status of (0 - 15), followed by ENTER: "
+	errorMsg2	 	.STRINGZ 	"\nERROR INVALID INPUT\n"
 	fifteen_4600		.FILL		#15
-	nine_4600			.FILL		x39
-	zero_4600			.FILL		x30
+	nine_4600		.FILL		x39
+	zero_4600		.FILL		x30
 	newline_4600		.FILL		x0A
-	multiplier			.FILL		#10
+	multiplier		.FILL		#10
 	
 ;=======================================================================
 ; Subroutine: PRINT_NUM
@@ -899,8 +899,8 @@ SKIP_PRINT_ONES_PLACE
 	R6_BACKUP_4800		.BLKW		#1
 	R7_BACKUP_4800		.BLKW		#1
 	
-	ten_4800			.FILL		#10
-	zero_4800			.FILL		x30
+	ten_4800		.FILL		#10
+	zero_4800		.FILL		x30
 	
 ; Remote Data ----------------------------------------------------------
 	

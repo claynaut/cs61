@@ -9,13 +9,13 @@
 .ORIG x3000
 ; Instructions ---------------------------------------------------------
 REPEAT_TEST_HARNESS
-	LEA R0, promptMsg				; Prompt user to input a single character
+	LEA R0, promptMsg			; Prompt user to input a single character
 	PUTS
 	
 	GETC
 	OUT
 
-	ADD R1, R0, #0					; Copy user input into R1 to pass into SUB_PARITY_CHECK
+	ADD R1, R0, #0				; Copy user input into R1 to pass into SUB_PARITY_CHECK
 	
 	LD R0, newline
 	OUT
@@ -26,13 +26,13 @@ REPEAT_TEST_HARNESS
 	LEA R0, onesMsgPt1
 	PUTS
 	
-	ADD R0, R1, #0					; Print original user input
+	ADD R0, R1, #0				; Print original user input
 	OUT
 	
 	LEA R0, onesMsgPt2
 	PUTS
 	
-	LD R0, zero						; Print number of 1's in user input
+	LD R0, zero				; Print number of 1's in user input
 	ADD R0, R0, R2
 	OUT
 	
@@ -48,17 +48,17 @@ REPEAT_TEST_HARNESS
 ; Local Data -----------------------------------------------------------
 	SUB_PARITY_CHECK	.FILL		x3200
 	
-	promptMsg			.STRINGZ	"Input a single character: "
-	onesMsgPt1			.STRINGZ	"The number of 1's in \""
-	onesMsgPt2			.STRINGZ	"\" is: "
-	newline				.FILL		x0A
-	zero				.FILL		x30
+	promptMsg		.STRINGZ	"Input a single character: "
+	onesMsgPt1		.STRINGZ	"The number of 1's in \""
+	onesMsgPt2		.STRINGZ	"\" is: "
+	newline			.FILL		x0A
+	zero			.FILL		x30
 
 ;=======================================================================
 ; SUBROUTINE: SUB_PARITY_CHECK
 ; Parameter (R1): character inputted by the user
 ; Postcondition: The subroutine counts the number of binary 1's are in the
-;				 input character and stores the count in the return register (R2)
+;		 input character and stores the count in the return register (R2)
 ; Return Value (R2): the hard-coded value
 ;=======================================================================
 .ORIG x3200
@@ -80,14 +80,14 @@ REPEAT_TEST_HARNESS
 	
 PARITY_CHECK
 	ADD R1, R1, #0
-	BRzp SKIP_INCREMENT				; Increments return value only if there
-									; is a leading 1, meaning the value is negative
+	BRzp SKIP_INCREMENT			; Increments return value only if there
+						; is a leading 1, meaning the value is negative
 	
 	ADD R2, R2, #1				
 	
 SKIP_INCREMENT
 
-	ADD R1, R1, R1					; Left shift binary value
+	ADD R1, R1, R1				; Left shift binary value
 	
 	ADD R3, R3, #-1
 	BRzp PARITY_CHECK

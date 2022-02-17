@@ -16,7 +16,7 @@
 	HALT
 
 ; Local Data -----------------------------------------------------------
-	DEC_65		.FILL		#65
-	DEC_41		.FILL		x41
+	DEC_65	.FILL	#65
+	DEC_41	.FILL	x41
 
 .END

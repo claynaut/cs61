@@ -8,15 +8,15 @@
 ;=======================================================================
 .ORIG x3000
 ; Instructions ---------------------------------------------------------
-	LD R4, BASE						; xA000
-	LD R5, MAX						; xA005
-	LD R6, TOS						; xA000
+	LD R4, BASE				; xA000
+	LD R5, MAX				; xA005
+	LD R6, TOS				; xA000
 	
 	LEA R0, first_operand_msg		; Prompt for first operand
 	PUTS
 	GETC
 	OUT
-	LD R2, SUB_GET_NUM				; Convert into a decimal number
+	LD R2, SUB_GET_NUM			; Convert into a decimal number
 	JSRR R2
 	LD R2, SUB_STACK_PUSH			; Push first operand onto stack
 	JSRR R2 
@@ -25,7 +25,7 @@
 	PUTS
 	GETC
 	OUT
-	LD R2, SUB_GET_NUM				; Convert into a decimal number
+	LD R2, SUB_GET_NUM			; Convert into a decimal number
 	JSRR R2
 	LD R2, SUB_STACK_PUSH			; Push second operand onto stack
 	JSRR R2
@@ -42,7 +42,7 @@
 	LD R2, SUB_STACK_POP			; Pop result off of stack to print
 	JSRR R2
 	
-	ADD R1, R0, #0					; MEM[R0] is copied into R1 to print
+	ADD R1, R0, #0				; MEM[R0] is copied into R1 to print
 	LD R2, SUB_PRINT_DECIMAL		; using a subroutine
 	JSRR R2
 	
@@ -52,17 +52,17 @@
 	SUB_STACK_PUSH		.FILL		x3200
 	SUB_STACK_POP		.FILL		x3400
 	SUB_RPN_MULTIPLY	.FILL		x3600
-	SUB_GET_NUM			.FILL		x4000
+	SUB_GET_NUM		.FILL		x4000
 	SUB_PRINT_DECIMAL	.FILL		x4200
 	
-	BASE				.FILL		xA000
-	MAX					.FILL		xA005
-	TOS					.FILL		xA000
+	BASE			.FILL		xA000
+	MAX			.FILL		xA005
+	TOS			.FILL		xA000
 	
 	first_operand_msg	.STRINGZ	"\n --\nFirst operand: "
 	second_operand_msg	.STRINGZ	"\nSecond operand: "
 	operator_msg		.STRINGZ	"\nOperator: "
-	result_msg			.STRINGZ	"\nResult: "
+	result_msg		.STRINGZ	"\nResult: "
 
 ;=======================================================================
 ; Subroutine: SUB_STACK_PUSH
@@ -72,8 +72,8 @@
 ; Parameter (R5): MAX: The "highest" available address in the stack
 ; Parameter (R6): TOS (Top of Stack): A pointer to the current top of the stack
 ; Postcondition: The subroutine has pushed (R0) onto the stack (i.e to address TOS+1). 
-;		    	 If the stack was already full (TOS = MAX), the subroutine has printed an
-;		    	 overflow error message and terminated.
+;		 If the stack was already full (TOS = MAX), the subroutine has printed an
+;		 overflow error message and terminated.
 ; Return Value: R6 ← updated TOS
 ;=======================================================================
 .ORIG x3200
@@ -94,10 +94,10 @@
 	NOT R1, R1
 	ADD R1, R1, #1
 	ADD R1, R1, R5
-	BRz OVERFLOW_ERROR				; Check if TOS == MAX
+	BRz OVERFLOW_ERROR			; Check if TOS == MAX
 	
-	ADD R6, R6, #1					; Update TOS (-1)
-	STR R0, R6, #0					; "Push" value onto stack 
+	ADD R6, R6, #1				; Update TOS (-1)
+	STR R0, R6, #0				; "Push" value onto stack 
 	
 	BR END_PUSH_SUB
 	
@@ -141,7 +141,7 @@ END_PUSH_SUB
 ; Parameter (R5): MAX: The "highest" available address in the stack
 ; Parameter (R6): TOS (Top of Stack): A pointer to the current top of the stack
 ; Postcondition: The subroutine has popped MEM[TOS] off of the stack.
-;		    	 If the stack was already empty (TOS = BASE), the subroutine has printed
+;		 If the stack was already empty (TOS = BASE), the subroutine has printed
 ;                an underflow error message and terminated.
 ; Return Value: R0 ← value popped off the stack
 ;		   R6 ← updated TOS
@@ -164,10 +164,10 @@ END_PUSH_SUB
 	NOT R1, R1
 	ADD R1, R1, #1
 	ADD R1, R1, R4
-	BRz UNDERFLOW_ERROR				; Check if TOS == BASE
+	BRz UNDERFLOW_ERROR			; Check if TOS == BASE
 	
-	LDR R0, R6, #0					; R0 <-- MEM[TOS]
-	ADD R6, R6, #-1					; "Pop" value off of stack by updating TOS
+	LDR R0, R6, #0				; R0 <-- MEM[TOS]
+	ADD R6, R6, #-1				; "Pop" value off of stack by updating TOS
 	
 	BR END_POP_SUB
 
@@ -211,8 +211,8 @@ END_POP_SUB
 ; Parameter (R5): MAX: The "highest" available address in the stack
 ; Parameter (R6): TOS (Top of Stack): A pointer to the current top of the stack
 ; Postcondition: The subroutine has popped off the top two values of the stack,
-;		    	 multiplied them together, and pushed the resulting value back
-;		    	 onto the stack.
+;		 multiplied them together, and pushed the resulting value back
+;		 onto the stack.
 ; Return Value: R6 ← updated TOS address
 ;=======================================================================
 .ORIG x3600
@@ -236,7 +236,7 @@ END_POP_SUB
 	JSRR R1
 	ADD R2, R0, #0
 	
-	LD R1, SUB_MULTIPLY				; Multiply both operands
+	LD R1, SUB_MULTIPLY			; Multiply both operands
 	JSRR R1
 	
 	LD R1, SUB_STACK_PUSH_2			; Push product onto the stack
@@ -276,7 +276,7 @@ END_POP_SUB
 ; Parameter (R2): first operand to multiply
 ; Parameter (R3): second operand to multiply
 ; Postcondition: The subroutine multiplies two operands, MEM[R2] and MEM[R3]
-;				 and stores the result in R0.
+;	         and stores the result in R0.
 ; Return Value (R0): product of MEM[R2] and MEM[R3]
 ;=======================================================================
 .ORIG x3800
@@ -295,7 +295,7 @@ END_POP_SUB
 ; Subroutine Algorithm
 	AND R0, R0, #0
 	
-	ADD R2, R2, #0					; Check if either operands are 0, and
+	ADD R2, R2, #0				; Check if either operands are 0, and
 	BRz SKIP_MULTIPLY_LOOP			; if so, skip loop used to "multiply"
 	ADD R3, R3, #0
 	BRz SKIP_MULTIPLY_LOOP
@@ -336,7 +336,7 @@ SKIP_MULTIPLY_LOOP
 ; SUBROUTINE: SUB_GET_NUM		
 ; Parameter (R0): character to convert into a decimal number
 ; Postcondition: The subroutine converts the character representing a number
-;			     into a decimal number.
+;	         into a decimal number.
 ; Return Value (R0): decimal number converted from MEM[R0]
 ;=======================================================================
 .ORIG x4000
@@ -381,7 +381,7 @@ SKIP_MULTIPLY_LOOP
 ;	R6_BACKUP_4000		.BLKW		#1
 	R7_BACKUP_4000		.BLKW		#1
 	
-	zero_4000			.FILL		x30
+	zero_4000		.FILL		x30
 
 ;=======================================================================
 
@@ -405,8 +405,8 @@ SKIP_MULTIPLY_LOOP
 	ST R7, R7_BACKUP_4200
 
 ; Subroutine Algorithm
-	AND R6, R6, #0					; Toggle value to check if respective decimal
-									; place should be printed (if > 0)
+	AND R6, R6, #0				; Toggle value to check if respective decimal
+						; place should be printed (if > 0)
 
 ;TENTHS_PLACE
 	LD R2, ten
@@ -471,7 +471,7 @@ SKIP_PRINT_ONES_PLACE
 	R6_BACKUP_4200		.BLKW		#1
 	R7_BACKUP_4200		.BLKW		#1
 	
-	ten					.FILL		#10
-	zero_4200			.FILL		x30
+	ten			.FILL		#10
+	zero_4200		.FILL		x30
 
 ;=======================================================================

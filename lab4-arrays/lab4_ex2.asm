@@ -22,13 +22,13 @@ FILL_LOOP
 	BRp FILL_LOOP
 	
 	LD R1, ARRAY_ADDR	; Reload the starting address of the array
-	LD R2, zero			; Value to add to decimal to convert to a printable character
+	LD R2, zero		; Value to add to decimal to convert to a printable character
 	LD R4, fillCount
 	
 OUTPUT_LOOP
 	LDR R0, R1, #0
 	ADD R0, R0, R2		; Convert the decimal into a printable character
-	OUT					; and outputs to console
+	OUT			; and outputs to console
 	
 	ADD R1, R1, #1
 	
@@ -38,9 +38,9 @@ OUTPUT_LOOP
 	HALT
 	
 ; Local Data -----------------------------------------------------------
-	ARRAY_ADDR		.FILL		x4000
-	fillCount		.FILL		#10
-	zero			.FILL		x30
+	ARRAY_ADDR	.FILL	x4000
+	fillCount	.FILL	#10
+	zero		.FILL	x30
 	
 ; Remote Data ----------------------------------------------------------
 .ORIG x4000

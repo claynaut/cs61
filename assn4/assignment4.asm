@@ -48,7 +48,7 @@ BEGIN_PROGRAM
 	BRz END_PROGRAM		
 	
 	; Is it = '+'? if so, ignore it, go get digits
-	LD R2, plus			; 2's complement conversion of '+'
+	LD R2, plus		; 2's complement conversion of '+'
 	NOT R2, R2
 	ADD R2, R2, #1
 	
@@ -56,7 +56,7 @@ BEGIN_PROGRAM
 	BRz GET_DIGITS		
 	
 	; Is it = '-'? if so, set neg flag, go get digits
-	LD R2, dash			; 2's complement conversion of '-'
+	LD R2, dash		; 2's complement conversion of '-'
 	NOT R2, R2
 	ADD R2, R2, #1
 	
@@ -64,7 +64,7 @@ BEGIN_PROGRAM
 	BRz SET_NEGATIVE_FLAG
 	
 	; Is it < '0'? if so, it is not a digit	- o/p error message, start over
-	LD R2, zero			; 2's complement conversion of '0'
+	LD R2, zero		; 2's complement conversion of '0'
 	NOT R2, R2
 	ADD R2, R2, #1
 	
@@ -72,7 +72,7 @@ BEGIN_PROGRAM
 	BRn RESTART
 	
 	; Is it > '9'? if so, it is not a digit	- o/p error message, start over
-	LD R2, nine			; 2's complement conversion of '9'
+	LD R2, nine		; 2's complement conversion of '9'
 	NOT R2, R2
 	ADD R2, R2, #1
 	
@@ -123,7 +123,7 @@ GET_DIGITS
 	BRp RESTART
 	
 	AND R3, R3, #0		; Hardcodes R3 with the value 0 as it will be used to
-						; temporarily store a value in the following loop
+				; temporarily store a value in the following loop
 
 ; Multiply current value in R1 by 10 (using R3 to temporarily store the value)
 ; before adding another digit
@@ -153,7 +153,7 @@ END_PROGRAM
 	ADD R6, R6, #0		
 	BRz SKIP_NEGATIVE	; Branch to the end of the program if negative flag has not been set to 1
 	
-	NOT R1, R1			; 2's complement conversion of value stored in R1
+	NOT R1, R1		; 2's complement conversion of value stored in R1
 	ADD R1, R1, #1
 	
 SKIP_NEGATIVE
@@ -161,8 +161,8 @@ SKIP_NEGATIVE
 	HALT
 
 ; Local Data -----------------------------------------------------------
-	introPromptPtr		.FILL 		xA800
-	errorMessagePtr		.FILL 		xA900
+	introPromptPtr			.FILL 		xA800
+	errorMessagePtr			.FILL 		xA900
 	newline				.FILL		x0A
 	plus				.FILL 		x2B
 	dash				.FILL		x2D

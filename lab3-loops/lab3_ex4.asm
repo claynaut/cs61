@@ -43,7 +43,7 @@ PRINT_LOOP
 	ADD R0, R0, #0		; Checks if sentinel character has been reached (0)
 	BRz END_PRINT		; Loops until the character in the array matches the sentinel character (0)
 	
-	OUT					; Prints to console the value stored in R0, only if it's not the sentinel char
+	OUT			; Prints to console the value stored in R0, only if it's not the sentinel char
 	
 	BR PRINT_LOOP
 	
@@ -52,7 +52,7 @@ END_PRINT
 	HALT
 
 ; Local Data -----------------------------------------------------------
-	ARRAY_ADDR		.FILL		x4000
-	newline			.FILL		x0A
+	ARRAY_ADDR	.FILL	x4000
+	newline		.FILL	x0A
 
 .END
